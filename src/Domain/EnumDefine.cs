@@ -14,4 +14,10 @@ namespace Domain
         WAIT_INFOR = 5,
         PENDING = 6
     }
+
+    public enum eStatus
+    {
+        DISABLE = 0,
+        ENABLE = 1,
+    }
 }

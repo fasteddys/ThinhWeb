@@ -1,0 +1,76 @@
+﻿@model Admin_Users_IndexViewModel
+@{
+    ViewData["Title"] = "Users";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">Table head</h4>
+        <p class="card-title-desc">Use one of two modifier classes to make <code>&lt;thead&gt;</code>s appear light or dark gray.</p>
+
+        <div class="table-responsive">
+            <table class="table mb-0">
+
+                <thead class="thead-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Phone number</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var record in Model.Users.DataSource)
+                    {
+                    <tr>
+                        <th scope="row">@(Model.Users.DataSource.IndexOf(record) + 1)</th>
+                        <td>@record.Email</td>
+                        <td>@record.Username</td>
+                        <td>@record.PhoneNumber</td>
+                        <td style="align-content:center">
+                            <button type="button" class="btn btn-warning w-md waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-center">Medium</button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Center modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Cras mattis consectetur purus sit amet fermentum.
+                    Cras justo odio, dapibus ac facilisis in,
+                    egestas eget quam. Morbi leo risus, porta ac
+                    consectetur ac, vestibulum at eros.
+                </p>
+                <p>
+                    Praesent commodo cursus magna, vel scelerisque
+                    nisl consectetur et. Vivamus sagittis lacus vel
+                    augue laoreet rutrum faucibus dolor auctor.
+                </p>
+                <p class="mb-0">
+                    Aenean lacinia bibendum nulla sed consectetur.
+                    Praesent commodo cursus magna, vel scelerisque
+                    nisl consectetur et. Donec sed odio dui. Donec
+                    ullamcorper nulla non metus auctor
+                    fringilla.
+                </p>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+

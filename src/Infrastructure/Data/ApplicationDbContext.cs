@@ -12,5 +12,6 @@ namespace Infrastructure.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
         //public DbSet<ApplicationUser> AppUser { get; set; }
         public DbSet<PersonalTask> PersonalTasks { get; set; }
+        public DbSet<Menu> Menu { get; set; }
     }
 }

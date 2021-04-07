@@ -10,6 +10,7 @@ namespace Infrastructure.Data
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
-        public DbSet<ApplicationUser> AppUser { get; set; }
+        //public DbSet<ApplicationUser> AppUser { get; set; }
+        public DbSet<PersonalTask> PersonalTasks { get; set; }
     }
 }

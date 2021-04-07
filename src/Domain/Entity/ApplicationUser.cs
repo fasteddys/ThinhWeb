@@ -7,5 +7,6 @@ namespace Domain.Entity
 {
     public class ApplicationUser : IdentityUser
     {
+        public virtual List<PersonalTask> PersonalTasks { get; set; }
     }
 }

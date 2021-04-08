@@ -35,13 +35,13 @@ namespace PersonalManagement.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Users(Admin_Users_IndexViewModel model)
+        public async Task<IActionResult> Users(string Email)
         {
-            model = model ?? new Admin_Users_IndexViewModel();
+            var model = new Admin_Users_IndexViewModel();
             var users = _userManager.Users;
-            if (!string.IsNullOrEmpty(model.Email))
+            if (!string.IsNullOrEmpty(Email))
             {
-                users = users.Where(x => x.Email.Contains(model.Email));
+                users = users.Where(x => x.Email.Contains(Email));
             }
 
             model.Users.DataSource = users
@@ -69,6 +69,12 @@ namespace PersonalManagement.Controllers
             //});
             model.Users.TotalRecords = users.Count();
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Users(Admin_Users_IndexViewModel model)
+        {
+            return View();
         }
 
         public async Task<IActionResult> Roles(Admin_Roles_IndexViewModel model)

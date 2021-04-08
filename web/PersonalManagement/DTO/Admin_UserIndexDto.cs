@@ -13,5 +13,6 @@ namespace PersonalManagement.DTO
         public string PhoneNumber { get; set; }
         public bool IsConfirmedByEmail { get; set; }
         public bool IsLockOut { get; set; }
+        public List<string> Roles { get; set; } = new List<string>();
     }
 }

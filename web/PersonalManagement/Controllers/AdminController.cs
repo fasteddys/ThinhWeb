@@ -1,6 +1,7 @@
 ﻿using Domain.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using PersonalManagement.Helper;
 using PersonalManagement.Models;
@@ -44,17 +45,28 @@ namespace PersonalManagement.Controllers
             }
 
             model.Users.DataSource = users
+                .AsNoTracking()
                 .Skip(PagingHelper.Skip(model.Users.PageIndex, model.Users.RecordPerPage))
                 .Take(model.Users.RecordPerPage)
                 .Select(x => new DTO.Admin_UserIndexDto
                 {
+                    Id = x.Id,
                     Email = x.Email,
                     PhoneNumber = x.PhoneNumber,
                     Username = x.UserName,
                     IsLockOut = x.LockoutEnabled,
-                    IsConfirmedByEmail = x.EmailConfirmed
+                    IsConfirmedByEmail = x.EmailConfirmed,
                 })
                 .ToList();
+            foreach (var record in model.Users.DataSource)
+            {
+                var user = await _userManager.FindByEmailAsync(record.Email);
+                record.Roles = (await _userManager.GetRolesAsync(user)).ToList();
+            }
+            // model.Users.DataSource.ForEach(async (x) =>  {
+            //    var user = await _userManager.FindByEmailAsync(x.Email);
+            //    x.Roles = (await _userManager.GetRolesAsync(user)).ToList();
+            //});
             model.Users.TotalRecords = users.Count();
             return View(model);
         }

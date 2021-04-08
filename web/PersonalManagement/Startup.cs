@@ -29,7 +29,8 @@ namespace PersonalManagement
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                options.UseSqlServer(
-                   Configuration.GetConnectionString("DefaultConnection")));
+                   Configuration.GetConnectionString("DefaultConnection")),
+               ServiceLifetime.Transient);
             services.AddDefaultIdentity<ApplicationUser>(options => 
                 { 
                     options.SignIn.RequireConfirmedAccount = false; 
@@ -45,6 +46,7 @@ namespace PersonalManagement
             });
 
             services.AddTransient<SeedData>();
+            services.AddSwaggerGen();
 
             services.AddControllersWithViews();
         }
@@ -71,6 +73,16 @@ namespace PersonalManagement
             app.UseAuthorization();
 
             seeder.Initialize().Wait();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint.
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
 
             app.UseEndpoints(endpoints =>
             {

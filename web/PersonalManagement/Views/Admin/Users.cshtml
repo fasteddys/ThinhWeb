@@ -18,21 +18,26 @@
                         <th>Email</th>
                         <th>Username</th>
                         <th>Phone number</th>
+                        <th>Role</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var record in Model.Users.DataSource)
                     {
-                    <tr>
-                        <th scope="row">@(Model.Users.DataSource.IndexOf(record) + 1)</th>
-                        <td>@record.Email</td>
-                        <td>@record.Username</td>
-                        <td>@record.PhoneNumber</td>
-                        <td style="align-content:center">
-                            <button type="button" class="btn btn-warning w-md waves-effect waves-light" data-toggle="modal" data-target=".bs-example-modal-center">Medium</button>
-                        </td>
-                    </tr>
+                        <tr>
+                            <th scope="row">@(Model.Users.DataSource.IndexOf(record) + 1)</th>
+                            <td>@record.Email</td>
+                            <td>@record.Username</td>
+                            <td>@record.PhoneNumber</td>
+                            <td>@String.Join(',', record.Roles)</td>
+                            <td style="align-content:center">
+                                <button type="button" class="btn btn-warning w-md waves-effect waves-light" @*data-toggle="modal" data-target=".bs-example-modal-center"*@
+                                        onclick="return openUserInforPopup('@record.Id');">
+                                    Medium
+                                </button>
+                            </td>
+                        </tr>
                     }
                 </tbody>
             </table>
@@ -41,36 +46,77 @@
     </div>
 </div>
 
-<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" id="user-infor-popup"
+     aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title mt-0">Center modal</h5>
+                <h5 class="modal-title mt-0">User Information</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <p>
-                    Cras mattis consectetur purus sit amet fermentum.
-                    Cras justo odio, dapibus ac facilisis in,
-                    egestas eget quam. Morbi leo risus, porta ac
-                    consectetur ac, vestibulum at eros.
-                </p>
-                <p>
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Vivamus sagittis lacus vel
-                    augue laoreet rutrum faucibus dolor auctor.
-                </p>
-                <p class="mb-0">
-                    Aenean lacinia bibendum nulla sed consectetur.
-                    Praesent commodo cursus magna, vel scelerisque
-                    nisl consectetur et. Donec sed odio dui. Donec
-                    ullamcorper nulla non metus auctor
-                    fringilla.
-                </p>
+                <form>
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-firstname-input" class="col-sm-3 col-form-label">First name</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="user-infor-name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-email-input" class="col-sm-3 col-form-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="email" class="form-control" id="user-infor-mail">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-4">
+                        <label for="horizontal-password-input" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="user-infor-phone-number">
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-end">
+                        <div class="col-sm-9">
+                            <div class="custom-control custom-checkbox mb-4">
+                                <input type="checkbox" class="custom-control-input" id="horizontal-customCheck">
+                                <label class="custom-control-label" for="horizontal-customCheck">Remember me</label>
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary w-md">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+@section Scripts {
+    <script>
+        function openUserInforPopup(id) {
+            $.ajax({
+                type: 'GET',
+                url: '/api/UserApi/get-user-infor-by-id?id=' + id,
+                dataType: 'text',
+                success: function (data) {
+                    var userInfor = JSON.parse(data);
+                    $('#user-infor-name').val(userInfor.UserName);
+                    $('#user-infor-mail').val(userInfor.Email);
+                    $('#user-infor-phone-number').val(userInfor.PhoneNumber);
+
+
+                    $('#user-infor-popup').modal();
+                    console.log(userInfor);
+                },
+                error: function () {
+                    alert("Error!");
+                }
+            });
+        }
+    </script>
+}

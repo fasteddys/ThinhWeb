@@ -9,6 +9,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PersonalManagement.GlobalHandler;
+using PersonalManagement.Service;
+using PersonalManagement.ServiceImpl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +50,10 @@ namespace PersonalManagement
 
             services.AddTransient<SeedData>();
             services.AddSwaggerGen();
+
+            services.AddHttpContextAccessor();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUtilService, UtilService>();
 
             services.AddControllersWithViews();
         }

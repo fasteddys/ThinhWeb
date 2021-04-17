@@ -10,5 +10,6 @@ namespace Domain.Entity
         public string Title { get; set; }
         public string Content { get; set; }
         public virtual ApplicationUser Author { get; set; }
+        public IList<PostTag> PostTags { get; set; }
     }
 }

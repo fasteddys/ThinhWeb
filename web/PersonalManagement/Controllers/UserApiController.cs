@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PersonalManagement.DTO;
+using PersonalManagement.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,17 @@ namespace PersonalManagement.Controllers
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
         private ILogger<UserApiController> _logger;
+        private IAccountService _accountService;
 
         public UserApiController(SignInManager<ApplicationUser> signInManager,
             ILogger<UserApiController> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IAccountService accountService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _accountService = accountService;
         }
 
         [HttpGet]

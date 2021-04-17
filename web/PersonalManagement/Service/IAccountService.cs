@@ -7,5 +7,7 @@ namespace PersonalManagement.Service
 {
     public interface IAccountService
     {
+        string CurrentUserId { get; }
+        //bool IsAuthenticated { get; }
     }
 }

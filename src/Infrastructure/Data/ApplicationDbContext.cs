@@ -15,12 +15,15 @@ namespace Infrastructure.Data
         public DbSet<PersonalTask> PersonalTasks { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<PostTag> PostTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new PostTagConfiguration());
         }
     }
 }

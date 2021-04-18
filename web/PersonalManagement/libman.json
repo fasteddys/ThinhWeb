@@ -5,6 +5,10 @@
     {
       "library": "ckeditor5@27.0.0",
       "destination": "wwwroot/lib/ckeditor5/"
+    },
+    {
+      "library": "bootstrap-toggle@2.2.2",
+      "destination": "wwwroot/lib/bootstrap-toggle/"
     }
   ]
 }

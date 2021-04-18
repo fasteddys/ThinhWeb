@@ -7,23 +7,41 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entity;
 using Infrastructure.Data;
+using PersonalManagement.Service;
+using PersonalManagement.DTO;
+using AutoMapper;
+using PersonalManagement.CQRS.Post;
+using MediatR;
 
 namespace PersonalManagement.Controllers
 {
     public class PostsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUtilService _utilService;
+        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
-        public PostsController(ApplicationDbContext context)
+        public PostsController(ApplicationDbContext context, 
+            IUtilService utilService,
+            IMapper mapper,
+            IMediator mediator)
         {
             _context = context;
+            _utilService = utilService;
+            _mapper = mapper;
+            _mediator = mediator;
         }
 
         // GET: Posts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Posts.Include(p => p.Author);
-            return View(await applicationDbContext.ToListAsync());
+            var applicationDbContext = _context.Posts
+                .Include(p => p.Author)
+                .Include(x => x.PostTags).ThenInclude(y => y.Tag);
+            var posts = await applicationDbContext.ToListAsync();
+            var postDtos = _mapper.Map<List<PostDto>>(posts);
+            return View(postDtos);
         }
 
         // GET: Posts/Details/5
@@ -49,6 +67,7 @@ namespace PersonalManagement.Controllers
         public IActionResult Create()
         {
             ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id");
+            ViewBag.TagsList = _utilService.GetListTags();
             return View();
         }
 
@@ -57,16 +76,20 @@ namespace PersonalManagement.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Content,Id,CreatedBy,ModifiedBy")] Post post)
+        public async Task<IActionResult> Create(Post_PostDto postDto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(post);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var createPostCommand = new CreatePostCommand { PostDto = postDto };
+                await _mediator.Send(createPostCommand);
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", post.CreatedBy);
-            return View(post);
+            catch (Exception ex)
+            {
+                ViewBag.TagsList = _utilService.GetListTags();
+                return View(postDto);
+            }
+            
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Posts/Edit/5
@@ -77,13 +100,15 @@ namespace PersonalManagement.Controllers
                 return NotFound();
             }
 
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts.Include(x => x.PostTags).FirstOrDefaultAsync(x => x.Id == id);
+            var postDto = _mapper.Map<Post_PostDto>(post);
             if (post == null)
             {
                 return NotFound();
             }
             ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", post.CreatedBy);
-            return View(post);
+            ViewBag.TagsList = _utilService.GetListTags();
+            return View(postDto);
         }
 
         // POST: Posts/Edit/5

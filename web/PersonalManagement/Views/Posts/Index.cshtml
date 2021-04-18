@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.Entity.Post>
+﻿@model IEnumerable<PostDto>
 
 @{
     ViewData["Title"] = "Index";
@@ -17,13 +17,16 @@
                 @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                @Html.DisplayNameFor(model => model.Tags)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Author)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ModifiedBy)
+                @Html.DisplayNameFor(model => model.CreatedOn)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
             </th>
             <th></th>
         </tr>
@@ -32,16 +35,35 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Title)
+                @Html.Raw(item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Content)
+                @foreach (var tag in item.TagNames)
+                {
+                    <span class="badge badge-primary">@tag</span>
+                }
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Author.Id)
+                @Html.DisplayFor(modelItem => item.Author)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ModifiedBy)
+                @Html.DisplayFor(modelItem => item.CreatedOn)
+            </td>
+            <td>
+                @if (item.Status == Domain.eStatus.ENABLE)
+                {
+                    <label class="switch">
+                        <input type="checkbox" checked id="@item.Id">
+                        <span class="slider round"></span>
+                    </label>
+                }
+                else
+                {
+                    <label class="switch">
+                        <input type="checkbox" id="@item.Id">
+                        <span class="slider round"></span>
+                    </label>
+                }
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

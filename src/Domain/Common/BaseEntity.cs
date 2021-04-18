@@ -8,7 +8,7 @@ namespace Domain.Common
     public class BaseEntity : IBaseEntity
     {
         [Key]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
         public DateTime CreatedOn { get; } = DateTime.Now;
         public DateTime ModifiedOn { get; } = DateTime.Now;
         public string CreatedBy { get; set; }

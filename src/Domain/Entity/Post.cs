@@ -9,7 +9,8 @@ namespace Domain.Entity
     {
         public string Title { get; set; }
         public string Content { get; set; }
+        public eStatus Status { get; set; } = eStatus.DISABLE;
         public virtual ApplicationUser Author { get; set; }
-        public IList<PostTag> PostTags { get; set; }
+        public IList<PostTag> PostTags { get; set; } = new List<PostTag>();
     }
 }

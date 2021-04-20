@@ -1,5 +1,32 @@
-﻿@{
+﻿@model Portal_Posts_IndexViewModel
+@{
     ViewData["Title"] = "Home Page";
-    
-}
 
+}
+<div class="row">
+    <div class="col-lg-8 col-md-10 mx-auto">
+        @foreach (var post in Model.Posts.DataSource)
+        {
+            <div class="post-preview">
+                <a href="post.html">
+                    <h2 class="post-title">
+                        @post.Title
+                    </h2>
+                    <h3 class="post-subtitle">
+                        @string.Join(", ", post.TagNames)
+                    </h3>
+                </a>
+                <p class="post-meta">
+                    Posted by
+                    <a href="#">@post.Author</a>
+                    on @post.CreatedOn
+                </p>
+            </div>
+            <hr>
+        }
+        <!-- Pager -->
+        <div class="clearfix">
+            <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+        </div>
+    </div>
+</div>

@@ -56,6 +56,8 @@ namespace PersonalManagement
             services.AddHttpContextAccessor();
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IUtilService, UtilService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IFileService, FileService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(Assembly.GetExecutingAssembly());

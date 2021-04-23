@@ -1,0 +1,89 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout_Admin";
+}
+<div class="card-body">
+    <div class="col-md-6 col-sm-6">
+        <form class="form-horizontal" enctype="multipart/form-data">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Photo</label>
+
+                <div class="col-sm-6 custom-file">
+
+                    <input @*asp-for="@Model.photoGraphy.filePhoto"*@ type="file" class="custom-file-input" multiple="multiple">
+                    <label class="custom-file-label" @*for="@Model.photoGraphy.filePhoto"*@>Choose file</label>
+                    <span @*asp-validation-for="@Model.photoGraphy.filePhoto"*@ class="text-danger"></span>
+
+                </div>
+                <div class="col-sm-4"> <button type="submit" class="btn btn-danger">Upload All</button></div>
+            </div>
+        </form>
+
+        <br />
+        <div class="row">
+            <div class="col-sm-2">
+                <a href="#" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                    <img src="~/images/product/img-1.png" asp-append-version="true" class="img-fluid mb-2" alt="white sample" />
+                    @*<img src="~/photography/@item.Name" asp-append-version="true" class="img-fluid mb-2" alt="white sample">*@
+                </a>
+                <a href="#" style="float:right">Delete</a>
+            </div>
+            <div class="col-sm-2">
+                <a href="#" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                    <img src="~/images/product/img-2.png" asp-append-version="true" class="img-fluid mb-2" alt="white sample" />
+                    @*<img src="~/photography/@item.Name" asp-append-version="true" class="img-fluid mb-2" alt="white sample">*@
+                </a>
+                <a href="#" style="float:right">Delete</a>
+            </div>
+            <div class="col-sm-2">
+                <a href="#" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                    <img src="~/images/product/img-3.png" asp-append-version="true" class="img-fluid mb-2" alt="white sample" />
+                    @*<img src="~/photography/@item.Name" asp-append-version="true" class="img-fluid mb-2" alt="white sample">*@
+                </a>
+                <a href="#" style="float:right">Delete</a>
+            </div>
+            <div class="col-sm-2">
+                <a href="#" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                    <img src="~/images/product/img-4.png" asp-append-version="true" class="img-fluid mb-2" alt="white sample" />
+                    @*<img src="~/photography/@item.Name" asp-append-version="true" class="img-fluid mb-2" alt="white sample">*@
+                </a>
+                <a href="#" style="float:right">Delete</a>
+            </div>
+            @*@if (Model.photoGraphyList != null)
+                {
+                    foreach (var item in Model.photoGraphyList)
+                    {
+                        <div class="col-sm-2">
+                            <a href="@Url.Content("~/photography/"+item.Name)" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                                <img src="~/photography/@item.Name" asp-append-version="true" class="img-fluid mb-2" alt="white sample">
+                            </a>
+                            <a href="@Url.Action("DeletePhoto","gallery",new { id=item.Id})" style="float:right">Delete</a>
+                        </div>
+                    }
+
+                }*@
+
+        </div>
+
+
+    </div>
+</div>
+@section Scripts{
+
+    <script>
+
+
+        $(function () {
+            $(document).on('click', '[data-toggle="lightbox"]', function (event) {
+                event.preventDefault();
+                $(this).ekkoLightbox({
+                    alwaysShowClose: true
+                });
+            });
+        });
+
+
+    </script>
+}  

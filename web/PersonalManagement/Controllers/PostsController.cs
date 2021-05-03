@@ -15,7 +15,7 @@ using MediatR;
 
 namespace PersonalManagement.Controllers
 {
-    public class PostsController : Controller
+    public class PostsController : BaseController
     {
         private readonly ApplicationDbContext _context;
         private readonly IUtilService _utilService;

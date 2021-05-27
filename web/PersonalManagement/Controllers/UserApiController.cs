@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PersonalManagement.DTO;
+using PersonalManagement.Models.Response;
 using PersonalManagement.Service;
 using System;
 using System.Collections.Generic;
@@ -58,7 +59,26 @@ namespace PersonalManagement.Controllers
             if (result.Succeeded)
                 return JsonConvert.SerializeObject(user);
 
-            return  "Error";
+            return "Error";
+        }
+
+        [HttpGet]
+        [Route("users")]
+        public async Task<ResponseEntity<PagingModel<ApplicationUser>>> GetUsers(int pageSize = 10, int pageIndex = 1) {
+            var data = _userManager.Users.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var response = new ResponseEntity<PagingModel<ApplicationUser>>
+            {
+                Message = "",
+                Status = "OK",
+                Data = new PagingModel<ApplicationUser>
+                {
+                    Data = data,
+                    PageIndex = pageIndex,
+                    PageSize = pageSize,
+                    TotalRecords = _userManager.Users.Count()
+                }
+            };
+            return response;
         }
     }
 }

@@ -1,4 +1,9 @@
-﻿using Domain.Entity;
+﻿using CQRS.Command.User;
+using CQRS.Dto.In.User;
+using CQRS.Dto.Out.User;
+using CQRS.Queries;
+using Domain.Entity;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,60 +27,98 @@ namespace PersonalManagement.Controllers
         private SignInManager<ApplicationUser> _signInManager;
         private ILogger<UserApiController> _logger;
         private IAccountService _accountService;
+        private IMediator _mediator;
+        private IUserQueries _userQueries;
 
         public UserApiController(SignInManager<ApplicationUser> signInManager,
             ILogger<UserApiController> logger,
             UserManager<ApplicationUser> userManager,
-            IAccountService accountService)
+            IAccountService accountService,
+            IMediator mediator,
+            IUserQueries userQueries)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _accountService = accountService;
+            _mediator = mediator;
+            _userQueries = userQueries;
         }
 
         [HttpGet]
         [Route("get-user-infor-by-id")]
-        public async Task<string> GetUserInforById(string Id)
+        public async Task<ResponseEntity<GetUserInforOutDto>> GetUserInforById(string id)
         {
-            var user = await _userManager.FindByIdAsync(Id);
-            return JsonConvert.SerializeObject(user, Formatting.Indented);
+            var user = await _userQueries.GetUserInforById(id);
+            return new ResponseEntity<GetUserInforOutDto>
+            {
+                Data = user,
+                Message = "",
+                Status = StatusCodes.Status200OK,
+                ErrorCode = ResponseResult.SUCCESS,
+            };
         }
 
         [HttpGet]
         [Route("get-user-infor-by-email")]
-        public async Task<string> GetUserInforByEmail(string email)
+        public async Task<ResponseEntity<GetUserInforOutDto>> GetUserInforByEmail(string email)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            return JsonConvert.SerializeObject(user, Formatting.Indented);
+            var user = await _userQueries.GetUserInforByEmail(email);
+            return new ResponseEntity<GetUserInforOutDto>
+            {
+                Data = user,
+                Message = "",
+                Status = StatusCodes.Status200OK,
+                ErrorCode = ResponseResult.SUCCESS,
+            };
         }
 
         [HttpPost]
         [Route("create-new-user")]
-        public async Task<string> CreateUser(User_PushDto userDto)
+        public async Task<ResponseEntity<CreateUserOutDto>> CreateUser(CreateUserCommand userDto)
         {
-            var user = new ApplicationUser { UserName = userDto.UserName, Email = userDto.Email };
-            var result = await _userManager.CreateAsync(user, userDto.Password);
-            if (result.Succeeded)
-                return JsonConvert.SerializeObject(user);
-
-            return "Error";
+            var user = await _mediator.Send(userDto);
+            if (user != null)
+            {
+                return new ResponseEntity<CreateUserOutDto>
+                {
+                    Data = user,
+                    Message = "",
+                    Status = StatusCodes.Status200OK,
+                    ErrorCode = ResponseResult.SUCCESS,
+                };
+            }
+            return new ResponseEntity<CreateUserOutDto>
+            {
+                Data = null,
+                Message = "Something wrong",
+                Status = StatusCodes.Status400BadRequest,
+                ErrorCode = ResponseResult.ERR_CREATE_USER_FAILED,
+            };
         }
 
         [HttpGet]
         [Route("users")]
-        public async Task<ResponseEntity<PagingModel<ApplicationUser>>> GetUsers(int pageSize = 10, int pageIndex = 1) {
-            var data = _userManager.Users.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-            var response = new ResponseEntity<PagingModel<ApplicationUser>>
+        public async Task<ResponseEntity<PagingModel<GetUserInforOutDto>>> GetUsers(string searchString, int pageSize = 10, int pageIndex = 1)
+        {
+            var users = await _userQueries.GetUsers(new GetUsersInDto
+            {
+                SearchString = searchString,
+                PageSize = pageSize,
+                PageIndex = pageIndex
+            });
+
+            var response = new ResponseEntity<PagingModel<GetUserInforOutDto>>
             {
                 Message = "",
-                Status = "OK",
-                Data = new PagingModel<ApplicationUser>
+                Status = StatusCodes.Status200OK,
+                ErrorCode = ResponseResult.SUCCESS,
+                Data = new PagingModel<GetUserInforOutDto>
                 {
-                    Data = data,
+                    Data = users.Users,
                     PageIndex = pageIndex,
                     PageSize = pageSize,
-                    TotalRecords = _userManager.Users.Count()
+                    TotalRecords = users.Total
                 }
             };
             return response;

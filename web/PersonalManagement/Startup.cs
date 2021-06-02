@@ -1,3 +1,4 @@
+using CQRS;
 using Domain.Entity;
 using Infrastructure.Data;
 using MediatR;
@@ -60,7 +61,9 @@ namespace PersonalManagement
             services.AddTransient<IFileService, FileService>();
 
             services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(typeof(CQRSMappingProfile));
             services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.ConfigureCQRSServices();
 
             services.AddControllersWithViews();
         }

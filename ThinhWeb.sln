@@ -5,13 +5,15 @@ VisualStudioVersion = 16.0.30709.132
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "web", "web", "{1046D4F3-D0C5-4B04-AFEF-DC0A59F7B5E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersonalManagement", "web\PersonalManagement\PersonalManagement.csproj", "{33A03560-E75E-40A6-B160-17066A1750FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonalManagement", "web\PersonalManagement\PersonalManagement.csproj", "{33A03560-E75E-40A6-B160-17066A1750FA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{18CF26E5-9866-49BF-979E-820D0034DEBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{00586DAB-BE04-4407-8634-57508A925314}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain.csproj", "{00586DAB-BE04-4407-8634-57508A925314}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{E66989D2-9D98-4753-A633-D9B22E30C9F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{E66989D2-9D98-4753-A633-D9B22E30C9F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS", "src\CQRS\CQRS.csproj", "{08660A97-5D39-49DD-91B4-A5C2889BE379}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{E66989D2-9D98-4753-A633-D9B22E30C9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E66989D2-9D98-4753-A633-D9B22E30C9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E66989D2-9D98-4753-A633-D9B22E30C9F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08660A97-5D39-49DD-91B4-A5C2889BE379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08660A97-5D39-49DD-91B4-A5C2889BE379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08660A97-5D39-49DD-91B4-A5C2889BE379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08660A97-5D39-49DD-91B4-A5C2889BE379}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{33A03560-E75E-40A6-B160-17066A1750FA} = {1046D4F3-D0C5-4B04-AFEF-DC0A59F7B5E4}
 		{00586DAB-BE04-4407-8634-57508A925314} = {18CF26E5-9866-49BF-979E-820D0034DEBD}
 		{E66989D2-9D98-4753-A633-D9B22E30C9F7} = {18CF26E5-9866-49BF-979E-820D0034DEBD}
+		{08660A97-5D39-49DD-91B4-A5C2889BE379} = {18CF26E5-9866-49BF-979E-820D0034DEBD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E99FD29C-2312-44ED-B37B-3F54567DAA00}

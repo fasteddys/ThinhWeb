@@ -59,12 +59,14 @@ namespace PersonalManagement
             services.AddTransient<IUtilService, UtilService>();
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<ICrawlingNBAService, CrawlingNBAService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddAutoMapper(typeof(CQRSMappingProfile));
             services.AddMediatR(Assembly.GetExecutingAssembly());
             services.ConfigureCQRSServices();
-
+            services.RegisterCrawlerService();
+            services.AddHttpClient();
             services.AddControllersWithViews();
         }
 

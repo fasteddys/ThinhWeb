@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace PersonalManagement.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class AdminController : Controller
     {
         private UserManager<ApplicationUser> _userManager;

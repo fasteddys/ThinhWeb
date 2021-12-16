@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{E66989D2-9D98-4753-A633-D9B22E30C9F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CQRS", "src\CQRS\CQRS.csproj", "{08660A97-5D39-49DD-91B4-A5C2889BE379}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CQRS", "src\CQRS\CQRS.csproj", "{08660A97-5D39-49DD-91B4-A5C2889BE379}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

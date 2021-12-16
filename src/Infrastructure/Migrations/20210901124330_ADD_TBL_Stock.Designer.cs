@@ -4,14 +4,16 @@ using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210901124330_ADD_TBL_Stock")]
+    partial class ADD_TBL_Stock
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,43 +180,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("Menu");
                 });
 
-            modelBuilder.Entity("Domain.Entity.NBAMatch", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Away")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("AwayScore")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Code")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Home")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HomeScore")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NBAMatches");
-                });
-
             modelBuilder.Entity("Domain.Entity.PersonalTask", b =>
                 {
                     b.Property<string>("Id")
@@ -313,14 +278,14 @@ namespace Infrastructure.Migrations
                     b.Property<string>("NhomNganhId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("NhomNganhPhuId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SanNiemYet")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("SoLuongLuuHanh")
                         .HasColumnType("bigint");
-
-                    b.Property<string>("TenCongTy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrlChiTiet")
                         .HasColumnType("nvarchar(max)");
@@ -328,6 +293,8 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("NhomNganhId");
+
+                    b.HasIndex("NhomNganhPhuId");
 
                     b.ToTable("Stock");
                 });
@@ -340,16 +307,32 @@ namespace Infrastructure.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Ten")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlChiTiet")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Stock_NhomNganh");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Stock_NhomNganhPhu", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NhomNganhChaId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Stock_NhomNganhId")
+                    b.Property<string>("NhomNganhId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Ten")
@@ -360,9 +343,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Stock_NhomNganhId");
+                    b.HasIndex("NhomNganhId");
 
-                    b.ToTable("Stock_NhomNganh");
+                    b.ToTable("Stock_NhomNganhPhu");
                 });
 
             modelBuilder.Entity("Domain.Entity.Tag", b =>
@@ -571,14 +554,22 @@ namespace Infrastructure.Migrations
                         .WithMany("Stocks")
                         .HasForeignKey("NhomNganhId");
 
+                    b.HasOne("Domain.Entity.Stock_NhomNganhPhu", "NhomNganhPhu")
+                        .WithMany("Stocks")
+                        .HasForeignKey("NhomNganhPhuId");
+
                     b.Navigation("NhomNganh");
+
+                    b.Navigation("NhomNganhPhu");
                 });
 
-            modelBuilder.Entity("Domain.Entity.Stock_NhomNganh", b =>
+            modelBuilder.Entity("Domain.Entity.Stock_NhomNganhPhu", b =>
                 {
-                    b.HasOne("Domain.Entity.Stock_NhomNganh", null)
-                        .WithMany("NhomNganhCon")
-                        .HasForeignKey("Stock_NhomNganhId");
+                    b.HasOne("Domain.Entity.Stock_NhomNganh", "NhomNganh")
+                        .WithMany("NhomNganhPhu")
+                        .HasForeignKey("NhomNganhId");
+
+                    b.Navigation("NhomNganh");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -646,8 +637,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entity.Stock_NhomNganh", b =>
                 {
-                    b.Navigation("NhomNganhCon");
+                    b.Navigation("NhomNganhPhu");
 
+                    b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("Domain.Entity.Stock_NhomNganhPhu", b =>
+                {
                     b.Navigation("Stocks");
                 });
 

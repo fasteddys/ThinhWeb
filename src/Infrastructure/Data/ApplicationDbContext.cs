@@ -18,7 +18,9 @@ namespace Infrastructure.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<FileStorage> FileStorages { get; set; }
-
+        public DbSet<Stock_NhomNganh> Stock_NhomNganh { get; set; }
+        public DbSet<Stock> Stock { get; set; }
+        public DbSet<NBAMatch> NBAMatches { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

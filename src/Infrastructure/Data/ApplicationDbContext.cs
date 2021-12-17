@@ -21,12 +21,15 @@ namespace Infrastructure.Data
         public DbSet<Stock_NhomNganh> Stock_NhomNganh { get; set; }
         public DbSet<Stock> Stock { get; set; }
         public DbSet<NBAMatch> NBAMatches { get; set; }
+        public DbSet<BlogSerie> BlogSerie { get; set; }
+        public DbSet<BlogCategory> BlogCategory { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new PostTagConfiguration());
+            builder.ApplyConfiguration(new BlogCategoryConfiguration());
         }
     }
 }

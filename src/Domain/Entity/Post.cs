@@ -11,6 +11,9 @@ namespace Domain.Entity
         public string Content { get; set; }
         public eStatus Status { get; set; } = eStatus.DISABLE;
         public virtual ApplicationUser Author { get; set; }
-        public IList<PostTag> PostTags { get; set; } = new List<PostTag>();
+        public virtual IList<PostTag> PostTags { get; set; } = new List<PostTag>();
+        public virtual IList<Blog_BlogCategory> Categories { get; set; } = new List<Blog_BlogCategory>();
+        public virtual BlogSerie? Serie { get; set; }
+        //public IList<Post> SubPosts { get; set; } = new List<Post>();
     }
 }

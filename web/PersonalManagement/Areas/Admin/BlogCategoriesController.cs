@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entity;
 using Infrastructure.Data;
+using PersonalManagement.Areas.Admin.ViewModels.BlogCategory;
+using AutoMapper;
 
 namespace PersonalManagement.Areas.Admin
 {
@@ -14,16 +16,25 @@ namespace PersonalManagement.Areas.Admin
     public class BlogCategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public BlogCategoriesController(ApplicationDbContext context)
+        public BlogCategoriesController(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // GET: Admin/BlogCategories
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexViewModel indexVM)
         {
-            return View(await _context.BlogCategory.ToListAsync());
+            if (indexVM == null)
+            {
+                indexVM = new IndexViewModel();
+            }
+
+            indexVM.BlogCategories = await _context.BlogCategory.ToListAsync();
+
+            return View(indexVM);
         }
 
         // GET: Admin/BlogCategories/Details/5
@@ -55,15 +66,16 @@ namespace PersonalManagement.Areas.Admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Status,Id,CreatedBy,ModifiedBy")] BlogCategory blogCategory)
+        public async Task<IActionResult> Create(IndexViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var blogCategory = _mapper.Map<BlogCategory>(model.CreateBlogCategoryInfor);
                 _context.Add(blogCategory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(blogCategory);
+            return RedirectToAction("Index");
         }
 
         // GET: Admin/BlogCategories/Edit/5

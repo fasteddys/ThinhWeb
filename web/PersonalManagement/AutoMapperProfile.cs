@@ -31,6 +31,10 @@ namespace PersonalManagement
             CreateMap<Post_PostDto, Post>()
                 .ForMember(x => x.PostTags, o => o.Ignore());
             #endregion
+
+            #region Blog Category
+            CreateMap<BlogCategory, Areas.Admin.ViewModels.BlogCategory.CreateViewModel>().ReverseMap();
+            #endregion
         }
     }
 }

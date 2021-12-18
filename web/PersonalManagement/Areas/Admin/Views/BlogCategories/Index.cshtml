@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Domain.Entity.BlogCategory>
+﻿@model PersonalManagement.Areas.Admin.ViewModels.BlogCategory.IndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -7,54 +7,98 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CreatedBy)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModifiedBy)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreatedBy)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedBy)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="card">
+    <div class="card-header">
+        Tạo mới
+    </div>
+    <div class="card-body">
+        <div class="row col-md-12">
+            <div class="col-md-5 card-body" style="border: 1px solid gray; margin: 20px;">
+                <form method="get" asp-action="Index" asp-controller="BlogCategories" asp-area="Admin">
+                    <div class="form-group">
+                        <label asp-for="SearchInfor.Name"></label>
+                        <input type="text" class="form-control" asp-for="SearchInfor.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="SearchInfor.Status"></label>
+                        <select class="form-control" asp-for="SearchInfor.Status" asp-items="Html.GetEnumSelectList<Domain.eStatus>()"></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <div class="col-md-5 justify-content-center card-body" style="border: 1px solid gray; margin: 20px;">
+                <form method="post" asp-action="Create" asp-controller="BlogCategories" asp-area="Admin">
+                    <div class="form-group">
+                        <label asp-for="CreateBlogCategoryInfor.Name"></label>
+                        <input type="text" class="form-control" asp-for="CreateBlogCategoryInfor.Name" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CreateBlogCategoryInfor.Description"></label>
+                        <input type="text" class="form-control" asp-for="CreateBlogCategoryInfor.Description" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CreateBlogCategoryInfor.Status"></label>
+                        <select class="form-control" asp-for="CreateBlogCategoryInfor.Status" asp-items="Html.GetEnumSelectList<Domain.eStatus>()"></select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">OK</button>
+                </form>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+<div class="card" style="margin-top: 20px">
+    <div class="card-body">
+        <table class="table table-bordered table-active">
+            <thead>
+                <tr>
+                    <th>
+                        Tên
+                    </th>
+                    <th>
+                        Mô tả
+                    </th>
+                    <th>
+                        Trạng thái
+                    </th>
+                    <th>
+                        Người tạo
+                    </th>
+                    <th>
+                        Ngày sửa đổi
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.BlogCategories)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedBy)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModifiedBy)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

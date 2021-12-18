@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using CQRS.Dto.In.Post;
+using CQRS.Dto.Out.Post;
 using CQRS.Dto.Out.User;
 using Domain.Entity;
 using System;
@@ -12,6 +14,8 @@ namespace CQRS
         public CQRSMappingProfile()
         {
             CreateMap<ApplicationUser, GetUserInforOutDto>().ReverseMap();
+            CreateMap<Post, CreatePostInDto>();
+            CreateMap<Post, PostDto>();
         }
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CQRS.Dto.Out.User
+namespace CQRS.Dto.Out.PostDto
 {
-    public class CreateUserOutDto
+    public class CreatePostOutDto
     {
     }
 }

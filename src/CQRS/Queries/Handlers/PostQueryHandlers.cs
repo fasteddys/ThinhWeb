@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CQRS.Dto.Out.Post;
-using CQRS.Queries.Post;
+using CQRS.Dto.Out.PostDto;
+using CQRS.Queries.PostQueries;
 using Infrastructure.Data;
 using MediatR;
 using Microsoft.Extensions.Logging;

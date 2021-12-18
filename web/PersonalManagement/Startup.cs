@@ -120,7 +120,7 @@ namespace PersonalManagement
                     );
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{area=Portal}/{controller=Posts}/{action=Index}/{id?}");
                 
                 endpoints.MapRazorPages();
             });

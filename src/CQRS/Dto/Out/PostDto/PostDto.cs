@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CQRS.Dto.Out.Post
+namespace CQRS.Dto.Out.PostDto
 {
     public class PostDto
     {

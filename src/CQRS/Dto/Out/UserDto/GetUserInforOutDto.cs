@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace CQRS.Dto.Out.User
+namespace CQRS.Dto.Out.UserDto
 {
     public class GetUserInforOutDto
     {

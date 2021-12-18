@@ -1,0 +1,83 @@
+﻿@model Post_PostDto
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout_Admin.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Post</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                <textarea asp-for="Content" class="form-control" rows="30"></textarea>
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Tags" class="control-label"></label>
+                <select asp-for="Tags" class="form-control" asp-items="@ViewBag.TagsList"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    <script>
+//const { ClassicEditor } = require("../../wwwroot/lib/ckeditor5/ckeditor");
+
+    //ClassicEditor
+    //    .create(document.querySelector('#Content'))
+    //    .catch(error => {
+    //        console.error(error);
+    //    });
+    CKEDITOR.replace('Content', {
+        // Define changes to default configuration here. For example:
+        // uiColor = '#AADC6E';
+        //contentsLangDirection = 'rtl',
+        //language = 'fa',
+        filebrowserImageUploadUrl: 'UploadImage' ,
+        //toolbar = 'MyToolbar',
+
+
+        //toolbar_MyToolbar =
+        //    [
+        //        { name: 'document', items: ['Source', '-', 'Save', 'NewPage', 'DocProps', 'Preview', 'Print', '-', 'Templates'] },
+        //        { name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo'] },
+        //        { name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll', '-', 'SpellChecker', 'Scayt'] },
+        //        { name: 'forms', items: ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'] },
+        //        { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat'] },
+        //        { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
+        //        { name: 'colors', items: ['TextColor', 'BGColor'] },
+        //        '/',
+        //        { name: 'insert', items: ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe'] },
+        //        { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl'] },
+        //        { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] }
+
+        //    ],
+    })
+
+    $('#Tags').select2({
+        tags: true
+    });
+    </script>
+}
+
+

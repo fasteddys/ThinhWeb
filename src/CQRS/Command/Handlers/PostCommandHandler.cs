@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CQRS.Command.Post;
-using CQRS.Dto.Out.Post;
+using CQRS.Command.PostCommands;
+using CQRS.Dto.Out.PostDto;
 using Domain.Entity;
 using Infrastructure.Data;
 using MediatR;
@@ -58,6 +58,13 @@ namespace CQRS.Command.Handlers
 
         public Task<PostDto> Handle(EditPostCommand request, CancellationToken cancellationToken)
         {
+            var post = _dbContext.Posts.FirstOrDefault(x => x.Id == request.Id);
+            if (post != null)
+            {
+                post.Title = request.Title;
+                post.Content = request.Content;
+                //post.
+            }
             throw new NotImplementedException();
         }
 

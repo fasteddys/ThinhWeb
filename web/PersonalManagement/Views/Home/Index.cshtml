@@ -1,4 +1,4 @@
-﻿@*@model Portal_Posts_IndexViewModel
+﻿@model Portal_Posts_IndexViewModel
     @{
         ViewData["Title"] = "Home Page";
 
@@ -28,8 +28,8 @@
                 <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
             </div>
         </div>
-    </div>*@
-@model ChartViewModel
+    </div>
+@*@model ChartViewModel
 
 <style>
     .highcharts-figure,
@@ -83,22 +83,12 @@
         var id = rate.Match + "_" + rate.Site;
         var containerId = "container_" + id;
         var containerSpreadId = "container_spread_" + id;
-        //var overId = "over_" + id;
-        //var underId = "under_" + id;
-        //var totalId = "total_" + id;
-        //var etopId = "etop_" + id;
-        //var overRealId = "over_real_" + id;
-        //var underRealId = "under_real_" + id;
+
 <div class="row">
     <div class="col" id="@containerId"></div>
     <div class="col" id="@containerSpreadId"></div>
 </div>
 
-            @*<input type="hidden" id="@totalId" value="@String.Join(',', rate.Total)" />
-            <input type="hidden" id="@overId" value="@String.Join(',', rate.Over)" />
-            <input type="hidden" id="@underId" value="@String.Join(',', rate.Under)" />
-            <input type="hidden" id="@overRealId" value="@String.Join(',', rate.OverReal)" />
-            <input type="hidden" id="@underRealId" value="@String.Join(',', rate.UnderReal)" />*@
 
     }
 }
@@ -240,4 +230,4 @@
         }
     })
     </script>
-}
+}*@

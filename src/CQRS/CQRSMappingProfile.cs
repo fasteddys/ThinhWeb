@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using CQRS.Dto.In.Post;
-using CQRS.Dto.Out.Post;
-using CQRS.Dto.Out.User;
+using CQRS.Dto.Out.BlogCategory;
+using CQRS.Dto.Out.MenuDto;
+using CQRS.Dto.Out.PostDto;
+using CQRS.Dto.Out.UserDto;
 using Domain.Entity;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,9 @@ namespace CQRS
             CreateMap<ApplicationUser, GetUserInforOutDto>().ReverseMap();
             CreateMap<Post, CreatePostInDto>();
             CreateMap<Post, PostDto>();
+
+            CreateMap<BlogCategory, BlogCategoryDto>();
+            CreateMap<Menu, MenuDto>();
         }
     }
 }

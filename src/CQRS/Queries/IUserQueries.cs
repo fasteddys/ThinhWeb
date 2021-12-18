@@ -1,5 +1,5 @@
 ﻿using CQRS.Dto.In.User;
-using CQRS.Dto.Out.User;
+using CQRS.Dto.Out.UserDto;
 using System;
 using System.Collections.Generic;
 using System.Text;

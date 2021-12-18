@@ -34,10 +34,11 @@ namespace PersonalManagement.Controllers
             _httpClient = httpClient;
         }
 
-        public async Task<IActionResult> Index()
-        {
-            return RedirectToAction("UpdateMatchData", "NBA");
-        }
+        //public async Task<IActionResult> Index()
+        //{
+        //    //return RedirectToAction("UpdateMatchData", "NBA");
+        //    return RedirectToAction("Index", "Posts");
+        //}
         public async Task<IActionResult> Index2()
         {
             var matches = new Dictionary<string, string>
@@ -158,31 +159,31 @@ namespace PersonalManagement.Controllers
             return View(rateMatches);
         }
 
-        //public async Task<IActionResult> Index(string searchString, string tag, DateTime? createAt, int pageIndex, int pageSize)
-        //{
-        //    var totalRecords = 0;
-        //    var postDtos = _postService.GetListOfPosts(searchString, tag, out totalRecords, createAt, pageIndex, pageSize);
-        //    var model = new Portal_Posts_IndexViewModel
-        //    {
-        //        Posts = new Common_PagingViewModel<DTO.PostDto>
-        //        {
-        //            DataSource = postDtos,
-        //            PageIndex = pageIndex,
-        //            RecordPerPage = pageSize,
-        //            TotalRecords = totalRecords
-        //        },
-        //        Tag = tag,
-        //        SearchStr = searchString,
-        //        CreateAt = createAt
-        //    };
-        //    //bet365: https://api.aiscore.com/v1/m/api/match/odds/detail?match_id=ndkzysjwxg2tx73&odds_type=bs&cid=2
-        //    //william: https://api.aiscore.com/v1/m/api/match/odds/detail?match_id=ndkzysjwxg2tx73&odds_type=bs&cid=9
-        //    //betway: https://api.aiscore.com/v1/m/api/match/odds/detail?match_id=ndkzysjwxg2tx73&odds_type=bs&cid=105
+        public async Task<IActionResult> Index(string searchString, string tag, DateTime? createAt, int pageIndex, int pageSize)
+        {
+            var totalRecords = 0;
+            var postDtos = _postService.GetListOfPosts(searchString, tag, out totalRecords, createAt, pageIndex, pageSize);
+            var model = new Portal_Posts_IndexViewModel
+            {
+                Posts = new Common_PagingViewModel<DTO.PostDto>
+                {
+                    DataSource = postDtos,
+                    PageIndex = pageIndex,
+                    RecordPerPage = pageSize,
+                    TotalRecords = totalRecords
+                },
+                Tag = tag,
+                SearchStr = searchString,
+                CreateAt = createAt
+            };
+            //bet365: https://api.aiscore.com/v1/m/api/match/odds/detail?match_id=ndkzysjwxg2tx73&odds_type=bs&cid=2
+            //william: https://api.aiscore.com/v1/m/api/match/odds/detail?match_id=ndkzysjwxg2tx73&odds_type=bs&cid=9
+            //betway: https://api.aiscore.com/v1/m/api/match/odds/detail?match_id=ndkzysjwxg2tx73&odds_type=bs&cid=105
 
-            
 
-        //    return View(model);
-        //}
+
+            return View(model);
+        }
 
         public IActionResult Privacy()
         {

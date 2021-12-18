@@ -1,14 +1,15 @@
-﻿using CQRS.Dto.Out.Post;
+﻿using CQRS.Dto.Out.PostDto;
 using Domain;
 using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CQRS.Command.Post
+namespace CQRS.Command.PostCommands
 {
-    public class CreatePostCommand : IRequest<PostDto>
+    public class EditPostCommand : IRequest<PostDto>
     {
+        public string Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
         public eStatus Status { get; set; }

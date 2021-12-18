@@ -7,37 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entity;
 using Infrastructure.Data;
-using PersonalManagement.Areas.Admin.ViewModels.BlogCategory;
-using AutoMapper;
+using CQRS.Command.MenuCommands;
+using MediatR;
 
-namespace PersonalManagement.Areas.Admin
+namespace PersonalManagement.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class BlogCategoriesController : Controller
+    public class MenusController : Controller
     {
+        private readonly IMediator _mediator;
         private readonly ApplicationDbContext _context;
-        private readonly IMapper _mapper;
 
-        public BlogCategoriesController(ApplicationDbContext context, IMapper mapper)
+        public MenusController(ApplicationDbContext context, IMediator mediator)
         {
+            _mediator = mediator;
             _context = context;
-            _mapper = mapper;
         }
 
-        // GET: Admin/BlogCategories
-        public async Task<IActionResult> Index(IndexViewModel indexVM)
+        // GET: Admin/Menus
+        public async Task<IActionResult> Index()
         {
-            if (indexVM == null)
-            {
-                indexVM = new IndexViewModel();
-            }
-
-            indexVM.BlogCategories = await _context.BlogCategory.ToListAsync();
-
-            return View(indexVM);
+            return View(await _context.Menu.ToListAsync());
         }
 
-        // GET: Admin/BlogCategories/Details/5
+        // GET: Admin/Menus/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -45,40 +38,46 @@ namespace PersonalManagement.Areas.Admin
                 return NotFound();
             }
 
-            var blogCategory = await _context.BlogCategory
+            var menu = await _context.Menu
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blogCategory == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return View(blogCategory);
+            return View(menu);
         }
 
-        // GET: Admin/BlogCategories/Create
+        // GET: Admin/Menus/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Admin/BlogCategories/Create
+        // POST: Admin/Menus/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IndexViewModel model)
+        public async Task<IActionResult> Create([Bind("TextDisplay,Url,Status,Id,CreatedBy,ModifiedBy")] Menu menu)
         {
             if (ModelState.IsValid)
             {
-                var blogCategory = _mapper.Map<BlogCategory>(model.CreateBlogCategoryInfor);
-                _context.Add(blogCategory);
-                await _context.SaveChangesAsync();
+                var createMenuCommand = new CreateMenuCommand
+                {
+                    TextDisplay = menu.TextDisplay,
+                    Url = menu.Url,
+                    Status = menu.Status
+                };
+                await _mediator.Send(createMenuCommand);
+                //_context.Add(menu);
+                //await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction("Index");
+            return View(menu);
         }
 
-        // GET: Admin/BlogCategories/Edit/5
+        // GET: Admin/Menus/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -86,22 +85,22 @@ namespace PersonalManagement.Areas.Admin
                 return NotFound();
             }
 
-            var blogCategory = await _context.BlogCategory.FindAsync(id);
-            if (blogCategory == null)
+            var menu = await _context.Menu.FindAsync(id);
+            if (menu == null)
             {
                 return NotFound();
             }
-            return View(blogCategory);
+            return View(menu);
         }
 
-        // POST: Admin/BlogCategories/Edit/5
+        // POST: Admin/Menus/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,Description,Status,Id,CreatedBy,ModifiedBy")] BlogCategory blogCategory)
+        public async Task<IActionResult> Edit(string id, [Bind("TextDisplay,Url,Status,Id,CreatedBy,ModifiedBy")] Menu menu)
         {
-            if (id != blogCategory.Id)
+            if (id != menu.Id)
             {
                 return NotFound();
             }
@@ -110,12 +109,12 @@ namespace PersonalManagement.Areas.Admin
             {
                 try
                 {
-                    _context.Update(blogCategory);
+                    _context.Update(menu);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BlogCategoryExists(blogCategory.Id))
+                    if (!MenuExists(menu.Id))
                     {
                         return NotFound();
                     }
@@ -126,10 +125,10 @@ namespace PersonalManagement.Areas.Admin
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(blogCategory);
+            return View(menu);
         }
 
-        // GET: Admin/BlogCategories/Delete/5
+        // GET: Admin/Menus/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -137,30 +136,30 @@ namespace PersonalManagement.Areas.Admin
                 return NotFound();
             }
 
-            var blogCategory = await _context.BlogCategory
+            var menu = await _context.Menu
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (blogCategory == null)
+            if (menu == null)
             {
                 return NotFound();
             }
 
-            return View(blogCategory);
+            return View(menu);
         }
 
-        // POST: Admin/BlogCategories/Delete/5
+        // POST: Admin/Menus/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var blogCategory = await _context.BlogCategory.FindAsync(id);
-            _context.BlogCategory.Remove(blogCategory);
+            var menu = await _context.Menu.FindAsync(id);
+            _context.Menu.Remove(menu);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BlogCategoryExists(string id)
+        private bool MenuExists(string id)
         {
-            return _context.BlogCategory.Any(e => e.Id == id);
+            return _context.Menu.Any(e => e.Id == id);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using CQRS.Command.User;
 using CQRS.Dto.In.User;
-using CQRS.Dto.Out.User;
+using CQRS.Dto.Out.UserDto;
 using CQRS.Queries;
 using Domain.Entity;
 using MediatR;

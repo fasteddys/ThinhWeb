@@ -1,0 +1,37 @@
+﻿@model List<CQRS.Dto.Out.MenuDto.MenuDto>
+<ul class="metismenu list-unstyled" id="side-menu">
+    <li class="menu-title">Menu</li>
+
+    <li>
+        <a class="waves-effect">
+            <i class="bx bx-user"></i>@*<span class="badge badge-pill badge-info float-right">03</span>*@
+            <span>User management</span>
+        </a>
+        <ul class="sub-menu" aria-expanded="false">
+            <li><a asp-controller="Admin" asp-action="Users">Users</a></li>
+            <li><a asp-controller="Admin" asp-action="Roles">Roles</a></li>
+            @*<li><a href="dashboard-crypto.html">Crypto</a></li>*@
+        </ul>
+    </li>
+
+    <li>
+        <a class="waves-effect">
+            <i class="bx bx-user"></i>@*<span class="badge badge-pill badge-info float-right">03</span>*@
+            <span>Content management</span>
+        </a>
+        <ul class="sub-menu" aria-expanded="false">
+            @foreach (var menu in Model)
+            {
+                <li><a href="@menu.Url">@menu.TextDisplay</a></li>
+            }
+            @*<li><a asp-controller="Posts" asp-action="Index" asp-area="Admin">Blog Posts</a></li>
+            <li><a asp-controller="BlogCategories" asp-action="Index" asp-area="Admin">Blog Category</a></li>
+            <li><a asp-controller="PostTags" asp-action="Index" asp-area="Admin">Blog Tag</a></li>
+            <li><a asp-controller="Menus" asp-action="Index" asp-area="Admin">Menu</a></li>
+            <li><a asp-controller="Crawler" asp-action="Index">Crawler</a></li>*@
+        </ul>
+    </li>
+
+    
+
+</ul>

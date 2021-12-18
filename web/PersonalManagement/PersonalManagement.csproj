@@ -36,4 +36,9 @@
     <ProjectReference Include="..\..\src\Infrastructure\Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Portal\Data\" />
+    <Folder Include="Areas\Portal\Models\" />
+  </ItemGroup>
+
 </Project>

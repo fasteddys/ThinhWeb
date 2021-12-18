@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using CQRS.Dto.Out.User;
+using CQRS.Dto.Out.UserDto;
 using Domain.Entity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

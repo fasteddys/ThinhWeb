@@ -37,6 +37,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\API\Data\" />
+    <Folder Include="Areas\API\Views\" />
     <Folder Include="Areas\Portal\Data\" />
     <Folder Include="Areas\Portal\Models\" />
   </ItemGroup>

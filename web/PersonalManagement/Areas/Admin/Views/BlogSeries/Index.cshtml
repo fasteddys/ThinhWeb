@@ -17,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Posts)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -38,7 +38,17 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Description)
+                @foreach (var post in item.Posts)
+                {
+                <div>
+                    <a asp-controller="Posts" asp-action="Detail" asp-route-id="@post.Id">
+                        @post.Title
+                    </a>
+                </div>
+                
+                    
+                }
+                @*@Html.DisplayFor(modelItem => item.Description)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Status)

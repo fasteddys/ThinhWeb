@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entity;
 using Infrastructure.Data;
+using MediatR;
+using CQRS.Command.BlogSerieCommands;
 
 namespace PersonalManagement.Areas.Admin
 {
@@ -14,16 +16,18 @@ namespace PersonalManagement.Areas.Admin
     public class BlogSeriesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMediator _mediator;
 
-        public BlogSeriesController(ApplicationDbContext context)
+        public BlogSeriesController(ApplicationDbContext context, IMediator mediator)
         {
             _context = context;
+            _mediator = mediator;
         }
 
         // GET: Admin/BlogSeries
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BlogSerie.ToListAsync());
+            return View(await _context.BlogSerie.Include(x => x.Posts).ToListAsync());
         }
 
         // GET: Admin/BlogSeries/Details/5
@@ -45,8 +49,9 @@ namespace PersonalManagement.Areas.Admin
         }
 
         // GET: Admin/BlogSeries/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            await InitViewBag();
             return View();
         }
 
@@ -55,12 +60,20 @@ namespace PersonalManagement.Areas.Admin
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Description,Status,Id,CreatedBy,ModifiedBy")] BlogSerie blogSerie)
+        public async Task<IActionResult> Create(CreateBlogSerieCommand blogSerie)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(blogSerie);
-                await _context.SaveChangesAsync();
+                //_context.Add(blogSerie);
+                //await _context.SaveChangesAsync();
+                //var createBlogSerieCommand = new CreateBlogSerieCommand()
+                //{
+                //    Name = blogSerie.Name,
+                //    Description = blogSerie.Description,
+                //    Status = blogSerie.Status
+                //};
+
+                await _mediator.Send(blogSerie);
                 return RedirectToAction(nameof(Index));
             }
             return View(blogSerie);
@@ -149,6 +162,16 @@ namespace PersonalManagement.Areas.Admin
         private bool BlogSerieExists(string id)
         {
             return _context.BlogSerie.Any(e => e.Id == id);
+        }
+
+        private async Task InitViewBag()
+        {
+            var posts = await _context.Posts.Select(x => new SelectListItem
+            {
+                Value = x.Id,
+                Text = x.Title
+            }).ToListAsync();
+            ViewBag.Posts = posts;
         }
     }
 }

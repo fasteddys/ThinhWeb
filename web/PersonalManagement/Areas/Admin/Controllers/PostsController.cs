@@ -34,7 +34,9 @@ namespace PersonalManagement.Areas.Admin.Controllers
         // GET: Admin/Posts
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Posts.Include(p => p.Author);
+            var applicationDbContext = _context.Posts
+                                            .Include(p => p.Author)
+                                            .Include(p => p.PostTags).ThenInclude(x => x.Tag);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -76,7 +78,7 @@ namespace PersonalManagement.Areas.Admin.Controllers
                 await _mediator.Send(post);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", post.CreatedBy);
+            //ViewData["CreatedBy"] = new SelectList(_context.Users, "Id", "Id", post.CreatedBy);
             return View(post);
         }
 

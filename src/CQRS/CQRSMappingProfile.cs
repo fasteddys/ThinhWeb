@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CQRS.Dto.In.Post;
 using CQRS.Dto.Out.BlogCategory;
+using CQRS.Dto.Out.BlogSerieDto;
 using CQRS.Dto.Out.MenuDto;
 using CQRS.Dto.Out.PostDto;
 using CQRS.Dto.Out.UserDto;
@@ -19,7 +20,8 @@ namespace CQRS
             CreateMap<Post, CreatePostInDto>();
             CreateMap<Post, PostDto>();
 
-            CreateMap<BlogCategory, BlogCategoryDto>();
+            CreateMap<BlogCategory, BlogCategoryDto>().ReverseMap();
+            CreateMap<BlogSerie, BlogSerieDto>().ReverseMap();
             CreateMap<Menu, MenuDto>();
         }
     }

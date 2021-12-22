@@ -29,6 +29,10 @@
                 <span asp-validation-for="Status" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Posts" class="control-label"></label>
+                <select asp-for="Posts" class="form-control" asp-items="ViewBag.Posts" multiple></select>
+            </div>
+            @*<div class="form-group">
                 <label asp-for="Id" class="control-label"></label>
                 <input asp-for="Id" class="form-control" />
                 <span asp-validation-for="Id" class="text-danger"></span>
@@ -42,7 +46,7 @@
                 <label asp-for="ModifiedBy" class="control-label"></label>
                 <input asp-for="ModifiedBy" class="form-control" />
                 <span asp-validation-for="ModifiedBy" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -53,4 +57,12 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+@section Scripts {
+<script>
+    $('#Posts').select2({
+
+    });
+</script>
+}
 

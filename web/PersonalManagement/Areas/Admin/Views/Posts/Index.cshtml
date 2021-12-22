@@ -47,7 +47,7 @@
             </td>
             <td>
                 <div>
-                    @String.Join(",", item.PostTags.Select(x => x.Tag.Name).ToList())
+                    @String.Join(",", item.PostTags?.Select(x => x.Tag?.Name).ToList())
                 </div>
                
             </td>

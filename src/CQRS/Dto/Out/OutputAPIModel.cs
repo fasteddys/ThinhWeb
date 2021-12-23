@@ -1,10 +1,10 @@
-﻿using System;
+﻿using CQRS.Enum;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace PersonalManagement.Areas.API.Models
+namespace CQRS.Dto.Out
 {
     public class OutputAPIModel<T>
     {
@@ -22,7 +22,8 @@ namespace PersonalManagement.Areas.API.Models
         public long TotalRecords { get; set; }
         public long TotalPages
         {
-            get {
+            get
+            {
                 return PageSize == 0 ? 0 : (long)Math.Ceiling(1.0 * TotalRecords / PageSize);
             }
         }

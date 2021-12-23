@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace PersonalManagement.Areas.API
+namespace CQRS.Enum
 {
     public enum ErrorCodeEnum
     {
